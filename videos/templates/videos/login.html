@@ -1,0 +1,37 @@
+{% extends 'videos/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="panel auth-panel">
+        <div class="panel__header">
+            <h1>Вход</h1>
+        </div>
+
+        <form method="post" class="upload-form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <label class="field">
+                <span>Имя пользователя</span>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </label>
+
+            <label class="field">
+                <span>Пароль</span>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </label>
+
+            <div class="actions actions--form">
+                <button type="submit" class="primary-button">Войти</button>
+                <a class="secondary-button" href="{% url 'videos:register' %}">Создать аккаунт</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

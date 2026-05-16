@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class VideoJob(models.Model):
@@ -14,6 +15,13 @@ class VideoJob(models.Model):
         (STATUS_FAILED, 'Ошибка'),
     ]
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='video_jobs',
+        null=True,
+        blank=True,
+    )
     input_file = models.FileField(upload_to='uploads/%Y/%m/%d/')
     source_language = models.CharField(max_length=12, blank=True)
     target_language = models.CharField(max_length=64, default='Russian')

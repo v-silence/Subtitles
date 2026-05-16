@@ -10,7 +10,18 @@
 <body>
     <header class="topbar">
         <a class="brand" href="{% url 'videos:index' %}">Subtitle Service</a>
-        <span class="topbar__meta">SRT</span>
+        <nav class="topbar__nav">
+            {% if request.user.is_authenticated %}
+                <span class="topbar__meta">{{ request.user.username }}</span>
+                <form action="{% url 'videos:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="link-button">Выйти</button>
+                </form>
+            {% else %}
+                <a class="link-button" href="{% url 'videos:login' %}">Войти</a>
+                <a class="primary-button primary-button--small" href="{% url 'videos:register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
     </header>
 
     <main class="page">

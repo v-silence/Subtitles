@@ -48,6 +48,16 @@ a {
     font-weight: 750;
 }
 
+.topbar__nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.topbar__nav form {
+    margin: 0;
+}
+
 .topbar__meta,
 .badge {
     display: inline-flex;
@@ -77,6 +87,15 @@ a {
 .detail-layout {
     display: grid;
     gap: 20px;
+}
+
+.auth-layout {
+    display: grid;
+    justify-content: center;
+}
+
+.auth-panel {
+    width: min(100%, 460px);
 }
 
 .subtitle-grid {
@@ -179,7 +198,8 @@ h2 {
 }
 
 .primary-button,
-.secondary-button {
+.secondary-button,
+.link-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -195,9 +215,26 @@ h2 {
     white-space: normal;
 }
 
+.link-button {
+    min-height: 36px;
+    padding: 0 10px;
+    background: transparent;
+    border-color: transparent;
+    color: var(--primary-dark);
+}
+
+.link-button:hover {
+    background: var(--surface-strong);
+}
+
 .primary-button {
     background: var(--primary);
     color: #fff;
+}
+
+.primary-button--small {
+    min-height: 36px;
+    padding: 0 12px;
 }
 
 .primary-button:hover {
@@ -313,6 +350,10 @@ h2 {
     flex-wrap: wrap;
     gap: 10px;
     padding: 24px;
+}
+
+.actions--form {
+    padding: 0;
 }
 
 .error-box {
