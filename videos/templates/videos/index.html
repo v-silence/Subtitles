@@ -1,0 +1,62 @@
+{% extends 'videos/base.html' %}
+
+{% block title %}Subtitle Service{% endblock %}
+
+{% block content %}
+<section class="workspace">
+    <div class="panel upload-panel">
+        <div class="panel__header">
+            <h1>Новое задание</h1>
+            <span class="badge">Local</span>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <label class="field">
+                <span>{{ form.input_file.label }}</span>
+                {{ form.input_file }}
+                {{ form.input_file.errors }}
+            </label>
+
+            <div class="field-grid">
+                <label class="field">
+                    <span>{{ form.source_language.label }}</span>
+                    {{ form.source_language }}
+                    {{ form.source_language.errors }}
+                </label>
+
+                <label class="field">
+                    <span>{{ form.target_language.label }}</span>
+                    {{ form.target_language }}
+                    {{ form.target_language.errors }}
+                </label>
+            </div>
+
+            <button type="submit" class="primary-button">Создать субтитры</button>
+        </form>
+    </div>
+
+    <aside class="panel jobs-panel">
+        <div class="panel__header">
+            <h2>Последние</h2>
+        </div>
+
+        {% if jobs %}
+            <div class="job-list">
+                {% for job in jobs %}
+                    <a class="job-item" href="{% url 'videos:detail' job.pk %}">
+                        <span class="job-item__name">{{ job.filename }}</span>
+                        <span class="status status--{{ job.status }}">{{ job.get_status_display }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">Пока пусто</div>
+        {% endif %}
+    </aside>
+</section>
+{% endblock %}

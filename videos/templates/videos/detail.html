@@ -1,0 +1,65 @@
+{% extends 'videos/base.html' %}
+
+{% block title %}Задание #{{ job.pk }}{% endblock %}
+
+{% block content %}
+<section class="detail-layout">
+    <div class="panel">
+        <div class="panel__header">
+            <div>
+                <p class="eyebrow">Задание #{{ job.pk }}</p>
+                <h1>{{ job.filename }}</h1>
+            </div>
+            <span class="status status--{{ job.status }}">{{ job.get_status_display }}</span>
+        </div>
+
+        <dl class="meta-grid">
+            <div>
+                <dt>Язык видео</dt>
+                <dd>{{ job.source_language|default:'auto' }}</dd>
+            </div>
+            <div>
+                <dt>Перевод</dt>
+                <dd>{{ job.target_language }}</dd>
+            </div>
+            <div>
+                <dt>Создано</dt>
+                <dd>{{ job.created_at|date:'d.m.Y H:i' }}</dd>
+            </div>
+        </dl>
+
+        {% if job.status == 'failed' %}
+            <div class="error-box">{{ job.error_message }}</div>
+            <form action="{% url 'videos:retry' job.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="secondary-button">Повторить</button>
+            </form>
+        {% endif %}
+
+        {% if job.status == 'done' %}
+            <div class="actions">
+                <a class="primary-button" href="{% url 'videos:download_translated' job.pk %}">Скачать перевод</a>
+                <a class="secondary-button" href="{% url 'videos:download_original' job.pk %}">Скачать оригинал</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if job.status == 'done' %}
+        <div class="subtitle-grid">
+            <section class="panel">
+                <div class="panel__header">
+                    <h2>Оригинал</h2>
+                </div>
+                <pre class="srt-preview">{{ job.original_srt }}</pre>
+            </section>
+
+            <section class="panel">
+                <div class="panel__header">
+                    <h2>Перевод</h2>
+                </div>
+                <pre class="srt-preview">{{ job.translated_srt }}</pre>
+            </section>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
