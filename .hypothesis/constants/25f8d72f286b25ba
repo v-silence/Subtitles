@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\videos\admin.py
+# hypothesis_version: 6.141.1
+
+['created_at', 'error_message', 'filename', 'id', 'input_file', 'status', 'target_language', 'updated_at', 'user', 'user__username']

@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\subtitle_service\settings.py
+# hypothesis_version: 6.141.1
+
+['"', '#', "'", ',', '.env', '/media/', '1', '5', '5432', ':memory:', '=', 'APP_DIRS', 'ARGOS_AUTO_INSTALL', 'BACKEND', 'DIRS', 'DJANGO_ALLOWED_HOSTS', 'DJANGO_DEBUG', 'DJANGO_SECRET_KEY', 'ENGINE', 'Europe/Moscow', 'HOST', 'LOCAL_WHISPER_DEVICE', 'LOCAL_WHISPER_MODEL', 'MEDIA_ROOT', 'NAME', 'OPTIONS', 'PASSWORD', 'PORT', 'POSTGRES_DB', 'POSTGRES_HOST', 'POSTGRES_PASSWORD', 'POSTGRES_PORT', 'POSTGRES_USER', 'USER', 'base', 'context_processors', 'cpu', 'default', 'django.contrib.admin', 'django.contrib.auth', 'int8', 'localhost', 'localhost,127.0.0.1', 'media', 'ru', 'static/', 'staticfiles', 'subtitle_password', 'subtitle_service', 'subtitle_user', 'test', 'utf-8', 'videos', 'videos:index', 'videos:login']

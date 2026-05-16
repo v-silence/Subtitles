@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\videos\migrations\0001_initial.py
+# hypothesis_version: 6.141.1
+
+['-created_at', 'ID', 'Russian', 'VideoJob', 'created_at', 'done', 'error_message', 'failed', 'id', 'input_file', 'ordering', 'original_srt', 'processing', 'queued', 'source_language', 'status', 'target_language', 'translated_srt', 'updated_at', 'uploads/%Y/%m/%d/', 'В очереди', 'Готово', 'Обработка', 'Ошибка']

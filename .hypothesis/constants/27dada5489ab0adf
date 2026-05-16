@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\videos\tests.py
+# hypothesis_version: 6.141.1
+
+[b'fake audio', 3723.456, 200, 302, 404, '/', '/accounts/login/', '/accounts/register/', '01:02:03,456', 'Content-Disposition', 'English', 'Hello', 'Location', 'Privet', 'Russian', 'World', 'alice', 'audio/mpeg', 'auto', 'bob', 'clip.mp3', 'en', 'input_file', 'new-user', 'other.mp3', 'password1', 'password2', 'ru', 'source_language', 'strong-password-123', 'subtitles-', 'target_language', 'uploads/clip.mp3', 'uploads/other.mp3', 'uploads/own.mp3', 'username', 'zh', 'zh-cn']

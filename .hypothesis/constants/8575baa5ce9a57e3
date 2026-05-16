@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\subtitle_service\urls.py
+# hypothesis_version: 6.141.1
+
+['admin/', 'videos.urls']

@@ -1,0 +1,4 @@
+# file: C:\Users\User\Desktop\kurrksp\videos\urls.py
+# hypothesis_version: 6.141.1
+
+['accounts/login/', 'accounts/logout/', 'accounts/register/', 'detail', 'download_original', 'download_translated', 'index', 'jobs/<int:pk>/', 'jobs/<int:pk>/retry/', 'login', 'logout', 'register', 'retry', 'videos', 'videos/login.html']
