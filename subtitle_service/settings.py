@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -98,12 +99,24 @@ WSGI_APPLICATION = 'subtitle_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('SQLITE_DATABASE_PATH', BASE_DIR / 'db.sqlite3'),
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB', 'subtitle_service'),
+            'USER': os.getenv('POSTGRES_USER', 'subtitle_user'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'subtitle_password'),
+            'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+            'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        }
+    }
 
 
 # Password validation

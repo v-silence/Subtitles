@@ -4,7 +4,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     DJANGO_DEBUG=1 \
     DJANGO_ALLOWED_HOSTS=* \
-    SQLITE_DATABASE_PATH=/data/db.sqlite3 \
+    POSTGRES_DB=subtitle_service \
+    POSTGRES_USER=subtitle_user \
+    POSTGRES_PASSWORD=subtitle_password \
+    POSTGRES_HOST=db \
+    POSTGRES_PORT=5432 \
     MEDIA_ROOT=/data/media \
     LOCAL_WHISPER_MODEL=base \
     LOCAL_WHISPER_DEVICE=cpu \
@@ -18,7 +22,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg libgomp1 \
+    && apt-get install -y --no-install-recommends ffmpeg libgomp1 libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -31,4 +35,4 @@ RUN mkdir -p /data/media /data/model-cache
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "/app/docker-entrypoint.sh"]

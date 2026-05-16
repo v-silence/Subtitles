@@ -21,35 +21,41 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+Перед локальным запуском без Docker должен быть доступен PostgreSQL. Параметры подключения задаются в `.env` через `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` и `POSTGRES_PORT`.
+
 Открой `http://127.0.0.1:8000/`.
 
 ## Пользователи
 
 Перед созданием субтитров нужно зарегистрироваться или войти в аккаунт. Каждое задание привязывается к текущему пользователю, поэтому в списке, на странице задания и при скачивании SRT доступны только собственные переводы и субтитры.
 
-## Запуск через Docker
+## Запуск через Docker Compose
 
-Собери образ:
-
-```powershell
-docker build -t subtitle-service .
-```
-
-Запусти контейнер:
+Запусти приложение и отдельную базу PostgreSQL:
 
 ```powershell
-docker run --rm -p 8000:8000 -v subtitle_data:/data subtitle-service
+docker compose up --build
 ```
 
 Открой `http://127.0.0.1:8000/`.
 
-Volume `subtitle_data` хранит SQLite-базу, загруженные файлы, медиа и скачанные модели. Первый запуск обработки может быть долгим, потому что контейнер скачает Whisper-модель и пакеты Argos Translate.
+Compose поднимает два сервиса:
+
+- `db` — PostgreSQL 16;
+- `web` — Django-приложение.
+
+Volume `postgres_data` хранит данные PostgreSQL. Volume `subtitle_data` хранит загруженные файлы, медиа и скачанные модели. Первый запуск обработки может быть долгим, потому что контейнер скачает Whisper-модель и пакеты Argos Translate.
 
 ## Настройки
 
 В `.env` можно менять локальную модель:
 
 ```env
+POSTGRES_DB=subtitle_service
+POSTGRES_USER=subtitle_user
+POSTGRES_PASSWORD=subtitle_password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
 LOCAL_WHISPER_MODEL=base
 LOCAL_WHISPER_DEVICE=cpu
 LOCAL_WHISPER_COMPUTE_TYPE=int8

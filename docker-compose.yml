@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-subtitle_service}
+      POSTGRES_USER: ${POSTGRES_USER:-subtitle_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-subtitle_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-subtitle_user} -d ${POSTGRES_DB:-subtitle_service}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-change-me}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-1}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      POSTGRES_DB: ${POSTGRES_DB:-subtitle_service}
+      POSTGRES_USER: ${POSTGRES_USER:-subtitle_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-subtitle_password}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      MEDIA_ROOT: /data/media
+      LOCAL_WHISPER_MODEL: ${LOCAL_WHISPER_MODEL:-base}
+      LOCAL_WHISPER_DEVICE: ${LOCAL_WHISPER_DEVICE:-cpu}
+      LOCAL_WHISPER_COMPUTE_TYPE: ${LOCAL_WHISPER_COMPUTE_TYPE:-int8}
+      LOCAL_WHISPER_BEAM_SIZE: ${LOCAL_WHISPER_BEAM_SIZE:-5}
+      ARGOS_AUTO_INSTALL: ${ARGOS_AUTO_INSTALL:-1}
+      HF_HOME: /data/model-cache/huggingface
+      XDG_CACHE_HOME: /data/model-cache/cache
+      XDG_DATA_HOME: /data/model-cache/share
+    volumes:
+      - subtitle_data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  subtitle_data:
