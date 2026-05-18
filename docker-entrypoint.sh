@@ -20,4 +20,5 @@ for attempt in range(60):
 PY
 
 python manage.py migrate
-exec python manage.py runserver 0.0.0.0:8000
+python manage.py collectstatic --noinput
+exec python manage.py runserver 0.0.0.0:${PORT:-8000}
