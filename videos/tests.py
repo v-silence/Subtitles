@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase, TestCase, override_settings
 
+from .forms import VideoUploadForm
 from .models import VideoJob
 from .services import (
     SubtitleSegment,
@@ -97,7 +98,7 @@ class UploadViewTests(TestCase):
                 '/',
                 {
                     'input_file': upload,
-                    'source_language': 'auto',
+                    'source_language': '',
                     'target_language': 'ru',
                 },
             )
@@ -108,6 +109,19 @@ class UploadViewTests(TestCase):
         self.assertEqual(job.user, self.user)
         self.assertEqual(job.source_language, '')
         processor.assert_called_once_with(job)
+
+    def test_upload_form_rejects_unknown_source_language(self):
+        upload = SimpleUploadedFile('clip.mp3', b'fake audio', content_type='audio/mpeg')
+        form = VideoUploadForm(
+            data={
+                'source_language': 'english',
+                'target_language': 'ru',
+            },
+            files={'input_file': upload},
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('source_language', form.errors)
 
     def test_index_shows_only_current_user_jobs(self):
         self.client.force_login(self.user)

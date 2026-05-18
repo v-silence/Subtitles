@@ -4,7 +4,7 @@ from .models import VideoJob
 
 
 class VideoUploadForm(forms.ModelForm):
-    TARGET_CHOICES = [
+    LANGUAGE_CHOICES = [
         ('ru', 'Русский'),
         ('en', 'Английский'),
         ('es', 'Испанский'),
@@ -16,13 +16,14 @@ class VideoUploadForm(forms.ModelForm):
         ('ja', 'Японский'),
         ('ko', 'Корейский'),
     ]
+    SOURCE_CHOICES = [('', 'Автоопределение')] + LANGUAGE_CHOICES
 
-    source_language = forms.CharField(
+    source_language = forms.ChoiceField(
         label='Язык видео',
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'auto, ru, en, es'}),
+        choices=SOURCE_CHOICES,
     )
-    target_language = forms.ChoiceField(label='Перевод', choices=TARGET_CHOICES)
+    target_language = forms.ChoiceField(label='Перевод', choices=LANGUAGE_CHOICES)
 
     class Meta:
         model = VideoJob
@@ -39,5 +40,4 @@ class VideoUploadForm(forms.ModelForm):
         }
 
     def clean_source_language(self):
-        value = self.cleaned_data['source_language'].strip().lower()
-        return '' if value == 'auto' else value
+        return self.cleaned_data['source_language']

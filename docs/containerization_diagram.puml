@@ -1,0 +1,41 @@
+@startuml
+title Контейнеризация сервиса генерации субтитров и перевода
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 180
+skinparam maxMessageSize 180
+
+actor "Пользователь" as User
+
+node "Docker Host" as Host {
+    node "Docker Compose" as Compose {
+        component "web\nDjango-приложение" as Web
+        database "db\nPostgreSQL 16" as DB
+    }
+
+    folder "subtitle_data\n/data" as SubtitleData
+    folder "postgres_data\n/var/lib/postgresql/data" as PostgresData
+}
+
+cloud "Внешние модели и пакеты\nпри первом запуске" as External
+
+User --> Web : HTTP\nlocalhost:8000
+Web --> DB : SQL\nPOSTGRES_HOST=db:5432
+DB --> PostgresData : хранение данных БД
+Web --> SubtitleData : видео, SRT-файлы,\nкэш моделей
+Web --> External : загрузка моделей Whisper\nи пакетов Argos Translate
+
+note right of Web
+Контейнер собирается из Dockerfile.
+При запуске entrypoint ожидает PostgreSQL,
+выполняет миграции и стартует Django-сервер.
+end note
+
+note bottom of DB
+База данных поднята отдельным контейнером.
+Состояние сохраняется в Docker volume,
+поэтому данные не пропадают после перезапуска.
+end note
+
+@enduml
